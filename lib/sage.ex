@@ -267,6 +267,20 @@ defmodule Sage do
   def new, do: %Sage{}
 
   @doc """
+  Experimental !!!
+  Concatenates two Sages.
+  """
+  def concat(%Sage{} = sage1, %Sage{} = sage2) do
+    %Sage{
+      final_hooks: MapSet.union(sage1.final_hooks, sage2.final_hooks),
+      on_compensation_error: sage1.on_compensation_error,
+      stage_names: MapSet.union(sage1.stage_names, sage2.stage_names),
+      stages: sage1.stages ++ sage2.stages,
+      tracers: MapSet.union(sage1.tracers, sage2.tracers)
+    }
+  end
+
+  @doc """
   Register error handler for compensations.
 
   Adapter must implement `Sage.CompensationErrorHandler` behaviour.
